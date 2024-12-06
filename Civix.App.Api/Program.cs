@@ -44,10 +44,6 @@ namespace Civix.App.Api
 
             var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
 
-
-            Console.WriteLine("ahmed");
-            Console.WriteLine("hana");
-
             try
             {
                 await _context.Database.MigrateAsync(); // Update-database
