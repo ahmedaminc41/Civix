@@ -15,6 +15,7 @@ namespace Civix.App.Api.Controllers
         public AuthController(IAuthService authService)
         {
             _authService = authService;
+
         }
 
 
