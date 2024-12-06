@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Civix.App.Core.Dtos.Auth;
 using Civix.App.Core.Entities;
-using Civix.App.Core.Service.Contracts;
+using Civix.App.Core.Service.Contracts.Auth;
 using Microsoft.AspNetCore.Identity;
 
 namespace Civix.App.Services.Auth
@@ -28,6 +28,9 @@ namespace Civix.App.Services.Auth
         public async Task<RegisterReturnDto> LoginAsync(LoginDto loginDto)
         {
             if (loginDto is null) return null;
+
+
+                
 
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
