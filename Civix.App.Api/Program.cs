@@ -30,6 +30,9 @@ namespace Civix.App.Api
             builder.Services.AddIdentity<AppUser, IdentityRole>()
                             .AddEntityFrameworkStores<CivixDbContext>();
 
+
+
+
             builder.Services.AddScoped<IAuthService, AuthServic>();
 
             var app = builder.Build();

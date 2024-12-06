@@ -29,6 +29,9 @@ namespace Civix.App.Services.Auth
         {
             if (loginDto is null) return null;
 
+
+                
+
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
             if (user is null) return null;
