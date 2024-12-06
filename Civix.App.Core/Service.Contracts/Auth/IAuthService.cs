@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Civix.App.Core.Dtos.Auth;
 using Civix.App.Core.Entities;
 
-namespace Civix.App.Core.Service.Contracts
+namespace Civix.App.Core.Service.Contracts.Auth
 {
     public interface IAuthService
     {
