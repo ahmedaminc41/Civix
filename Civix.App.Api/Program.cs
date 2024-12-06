@@ -1,6 +1,6 @@
 
 using Civix.App.Core.Entities;
-using Civix.App.Core.Service.Contracts;
+using Civix.App.Core.Service.Contracts.Auth;
 using Civix.App.Repositories.Data;
 using Civix.App.Services.Auth;
 using Microsoft.AspNetCore.Identity;
@@ -29,6 +29,9 @@ namespace Civix.App.Api
 
             builder.Services.AddIdentity<AppUser, IdentityRole>()
                             .AddEntityFrameworkStores<CivixDbContext>();
+
+
+
 
             builder.Services.AddScoped<IAuthService, AuthServic>();
 
