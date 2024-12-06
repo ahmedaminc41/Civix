@@ -124,6 +124,10 @@ namespace Civix.App.Api.Controllers
             var result = await _userManager.ResetPasswordAsync(user, changePasswordDto.Token, changePasswordDto.NewPassword);
             if (!result.Succeeded) BadRequest("Invalid Reset Password !");
 
+            var otpRecord = _context.OtpRecords.Where(X => X.Email == changePasswordDto.Email).FirstOrDefault();
+            _context.OtpRecords.Remove(otpRecord);
+            await _context.SaveChangesAsync();
+
             return Ok(new { Message = "Password Reset Successfully" });
 
         }
