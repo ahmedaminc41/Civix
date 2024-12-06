@@ -21,6 +21,8 @@ namespace Civix.App.Repositories.Data
             base.OnModelCreating(modelBuilder);
         }
 
+        public DbSet<OtpRecord> OtpRecords { get; set; }
+
 
     }
 }
