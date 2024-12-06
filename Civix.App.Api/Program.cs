@@ -28,8 +28,8 @@ namespace Civix.App.Api
             });
 
             builder.Services.AddIdentity<AppUser, IdentityRole>()
-                            .AddEntityFrameworkStores<CivixDbContext>();
-
+                            .AddEntityFrameworkStores<CivixDbContext>()
+                            .AddDefaultTokenProviders();
 
 
 
@@ -40,7 +40,6 @@ namespace Civix.App.Api
             // ASK CLR To Create Object From CivixDbContext
             using var scope = app.Services.CreateScope();
             var _context =  scope.ServiceProvider.GetRequiredService<CivixDbContext>();
-
 
             var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
 
