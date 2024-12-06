@@ -1,0 +1,6 @@
+@Civix.App.Api_HostAddress = http://localhost:5252
+
+GET {{Civix.App.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
