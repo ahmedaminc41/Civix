@@ -1,5 +1,5 @@
 ﻿using Civix.App.Core.Dtos.Auth;
-using Civix.App.Core.Service.Contracts;
+using Civix.App.Core.Service.Contracts.Auth;
 using Civix.App.Services.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
