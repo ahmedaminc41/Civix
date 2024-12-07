@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Civix.App.Core.Abstractions;
 using Civix.App.Core.Dtos.Auth;
 using Civix.App.Core.Entities;
 
@@ -11,9 +12,9 @@ namespace Civix.App.Core.Service.Contracts.Auth
     public interface IAuthService
     {
         // Login
-        Task<RegisterReturnDto> LoginAsync(LoginDto loginDto);
+        Task<Result<RegisterReturnDto>> LoginAsync(LoginDto loginDto);
         // Register
-        Task<RegisterReturnDto> RegisterAsync(RegisterDto registerDto);
+        Task<Result<RegisterReturnDto>> RegisterAsync(RegisterDto registerDto);
 
         // resetpassword
 

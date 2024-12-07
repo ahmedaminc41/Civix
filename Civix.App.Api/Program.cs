@@ -1,4 +1,5 @@
 
+using Civix.App.Api.Exceptions;
 using Civix.App.Core.Entities;
 using Civix.App.Core.Service.Contracts.Auth;
 using Civix.App.Repositories.Data;
@@ -35,6 +36,9 @@ namespace Civix.App.Api
 
             builder.Services.AddScoped<IAuthService, AuthServic>();
 
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
+
             var app = builder.Build();
 
             // ASK CLR To Create Object From CivixDbContext
@@ -65,6 +69,8 @@ namespace Civix.App.Api
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.UseExceptionHandler();
 
             app.Run();
         }
