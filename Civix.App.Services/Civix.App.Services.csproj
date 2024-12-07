@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Civix.App.Core\Civix.App.Core.csproj" />
     <ProjectReference Include="..\Civix.App.Repositories\Civix.App.Repositories.csproj" />
   </ItemGroup>
 

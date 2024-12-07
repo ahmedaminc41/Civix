@@ -3,6 +3,7 @@ using Civix.App.Core.Dtos.Auth;
 using Civix.App.Core.Dtos.Otp;
 using Civix.App.Core.Entities;
 using Civix.App.Core.Service.Contracts.Auth;
+using Civix.App.Core.Service.Contracts.Token;
 using Civix.App.Repositories.Data;
 using Civix.App.Services.Auth;
 using Microsoft.AspNetCore.Http;
@@ -18,12 +19,14 @@ namespace Civix.App.Api.Controllers
         private readonly IAuthService _authService;
         private readonly UserManager<AppUser> _userManager;
         private readonly CivixDbContext _context;
+        private readonly IToken _tokenService;
 
-        public AuthController(IAuthService authService, UserManager<AppUser> userManager, CivixDbContext context)
+        public AuthController(IAuthService authService, UserManager<AppUser> userManager, CivixDbContext context, IToken tokenService)
         {
             _authService = authService;
             _userManager = userManager;
             _context = context;
+            _tokenService = tokenService;
         }
 
 

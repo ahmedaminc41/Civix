@@ -1,8 +1,10 @@
 
 using Civix.App.Core.Entities;
 using Civix.App.Core.Service.Contracts.Auth;
+using Civix.App.Core.Service.Contracts.Token;
 using Civix.App.Repositories.Data;
 using Civix.App.Services.Auth;
+using Civix.App.Services.Token;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,7 +44,7 @@ namespace Civix.App.Api
             var _context =  scope.ServiceProvider.GetRequiredService<CivixDbContext>();
 
             var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
-
+            builder.Services.AddScoped<IToken, TokenService>();
 <<<<<<< HEAD
             Console.WriteLine("Shiref");
             Console.WriteLine("ahmed");
