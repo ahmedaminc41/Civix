@@ -1,4 +1,5 @@
-﻿using Civix.App.Api.Helpers;
+﻿using Civix.App.Api.Extensions;
+using Civix.App.Api.Helpers;
 using Civix.App.Core.Dtos.Auth;
 using Civix.App.Core.Dtos.Otp;
 using Civix.App.Core.Entities;
@@ -31,12 +32,12 @@ namespace Civix.App.Api.Controllers
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
             if (registerDto is null) return BadRequest("Invalid Registeration !!"); // 400
-             
-            var result = await  _authService.RegisterAsync(registerDto);
 
-            if (result is null) return BadRequest("Invalid Registeration !!");
+            var result = await _authService.RegisterAsync(registerDto);
 
-            return Ok(result);
+            return result.IsSuccess ?
+                Ok(result.Value) :
+                result.ToProblem(StatusCodes.Status400BadRequest, "Bad Request");
 
         }
 
@@ -45,13 +46,14 @@ namespace Civix.App.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
+            throw new Exception("My Ex");
             if (loginDto is null) return Unauthorized("Invalid Login !!"); // 400
 
             var result = await _authService.LoginAsync(loginDto);
 
-            if (result is null) return Unauthorized("Invalid Login !!");
-
-            return Ok(result);
+            return result.IsSuccess ?
+                Ok(result.Value) :
+                result.ToProblem(StatusCodes.Status401Unauthorized, "Unauthorized u r not");
 
         }
 
@@ -59,7 +61,7 @@ namespace Civix.App.Api.Controllers
         [HttpPost("password-reset")]
         public async Task<IActionResult> RequestResetPassword(ResetPasswordDto resetPasswordDto)
         {
-            if(resetPasswordDto is null) return BadRequest("Invalid Email");
+            if (resetPasswordDto is null) return BadRequest("Invalid Email");
 
             var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
             if (user is null) return BadRequest("Invalid Email");
@@ -97,9 +99,9 @@ namespace Civix.App.Api.Controllers
         [HttpPost("check-otp")]
         public async Task<IActionResult> CheckOtp(CheckOtpDto checkOtpDto)
         {
-            if(checkOtpDto is null) return BadRequest("Invalid Otp");
+            if (checkOtpDto is null) return BadRequest("Invalid Otp");
 
-            var otpRecord = _context.OtpRecords.Where( X => X.Email == checkOtpDto.Email && X.ExpiryTime > DateTime.UtcNow).FirstOrDefault();
+            var otpRecord = _context.OtpRecords.Where(X => X.Email == checkOtpDto.Email && X.ExpiryTime > DateTime.UtcNow).FirstOrDefault();
 
             if (otpRecord is null) return BadRequest("Invalid Or expired OTP !");
             if (!OtpSettings.VerifyOtp(otpRecord.Otp, checkOtpDto.InputOtp)) return BadRequest("Invalid OTP !");
