@@ -44,7 +44,7 @@ namespace Civix.App.Api
 
             var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
 
-
+            Console.WriteLine("Shiref");
             Console.WriteLine("ahmed");
             Console.WriteLine("hana");
 
