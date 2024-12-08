@@ -11,16 +11,8 @@ namespace Civix.App.Core.Dtos.Auth
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
-        [EmailAddress]
         public string Email { get; set; }
-
-
-        [DataType(DataType.Password)]
         public string Password { get; set; }
-
-        [Compare(nameof(Password), ErrorMessage = "The confirmed password does not match the password !")]
         public string ConfirmedPassword { get; set; }
-        public string PhoneNumber { get; set; }
     }
 }
