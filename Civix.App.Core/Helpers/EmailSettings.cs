@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using Civix.App.Core.Dtos.Otp;
 
-namespace Civix.App.Api.Helpers
+namespace Civix.App.Core.Helpers
 {
     public static class EmailSettings
     {

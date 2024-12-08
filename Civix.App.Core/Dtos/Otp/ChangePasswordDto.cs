@@ -12,8 +12,6 @@ namespace Civix.App.Core.Dtos.Otp
         public string Email { get; set; }
         public string Token { get; set; }
         public string NewPassword { get; set; }
-
-        [Compare(nameof(NewPassword), ErrorMessage = "Password does not match the confirmed password :(")]
         public string ConfirmedPassword { get; set; }
 
     }
