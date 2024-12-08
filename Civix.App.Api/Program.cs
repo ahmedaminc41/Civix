@@ -7,6 +7,9 @@ using Civix.App.Services.Auth;
 using Civix.App.Services.Token;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 namespace Civix.App.Api
 {
@@ -36,6 +39,27 @@ namespace Civix.App.Api
 
 
             builder.Services.AddScoped<IAuthService, AuthServic>();
+            builder.Services.AddScoped<IToken, TokenService>();
+
+            var jwtSettings = builder.Configuration.GetSection("JWT");
+            builder.Services.AddAuthentication("Bearer")
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtSettings.GetValue<string>("ValidIssuer"),
+                        ValidAudience = jwtSettings.GetValue<string>("ValidAudience"),
+                        IssuerSigningKey = new SymmetricSecurityKey( Encoding.UTF8.GetBytes(jwtSettings.GetValue<string>("Key")))
+                       
+                    };
+                });
+
+
+
 
             var app = builder.Build();
 
@@ -44,14 +68,14 @@ namespace Civix.App.Api
             var _context =  scope.ServiceProvider.GetRequiredService<CivixDbContext>();
 
             var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
-            builder.Services.AddScoped<IToken, TokenService>();
-<<<<<<< HEAD
+            
+//<<<<<<< HEAD
             Console.WriteLine("Shiref");
             Console.WriteLine("ahmed");
             Console.WriteLine("hana");
 
-=======
->>>>>>> 9ac919796cdd68903b8a32b55282ec5b93253719
+//=======
+//>>>>>>> 9ac919796cdd68903b8a32b55282ec5b93253719
             try
             {
                 await _context.Database.MigrateAsync(); // Update-database
@@ -70,7 +94,7 @@ namespace Civix.App.Api
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();

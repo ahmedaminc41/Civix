@@ -48,14 +48,23 @@ namespace Civix.App.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            if (loginDto is null) return Unauthorized("Invalid Login !!"); // 400
+            if (loginDto is null) return Unauthorized("Invalid Login!");
 
             var result = await _authService.LoginAsync(loginDto);
+            if (result is null) return Unauthorized("Invalid Login!");
 
-            if (result is null) return Unauthorized("Invalid Login !!");
+            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            if (user is null) return Unauthorized("Invalid Login!");
 
-            return Ok(result);
+            var token = await _tokenService.CreateTokenAsync(user, _userManager);
 
+            return Ok(new
+            {
+                Token = token, 
+                User = new { 
+                    user.Id,user.Email, user.UserName
+                                           }
+            });
         }
 
 
