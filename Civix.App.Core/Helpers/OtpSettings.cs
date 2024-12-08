@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Civix.App.Api.Helpers
+namespace Civix.App.Core.Helpers
 {
     public static class OtpSettings
     {
