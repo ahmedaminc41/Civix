@@ -9,10 +9,7 @@ namespace Civix.App.Core.Dtos.Auth
 {
     public class LoginDto
     {
-        [EmailAddress]
         public string Email { get; set; }
-
-        [DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }

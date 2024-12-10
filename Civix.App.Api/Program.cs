@@ -1,8 +1,14 @@
 
+using System.Reflection;
+using Civix.App.Api.Exceptions;
+using Civix.App.Api.Validations;
+using Civix.App.Core.Dtos.Auth;
 using Civix.App.Core.Entities;
 using Civix.App.Core.Service.Contracts.Auth;
 using Civix.App.Repositories.Data;
 using Civix.App.Services.Auth;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,11 +41,21 @@ namespace Civix.App.Api
 
             builder.Services.AddScoped<IAuthService, AuthServic>();
 
+
+            builder.Services
+                    .AddFluentValidationAutoValidation()
+                    .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
+
+
+
             var app = builder.Build();
 
             // ASK CLR To Create Object From CivixDbContext
             using var scope = app.Services.CreateScope();
-            var _context =  scope.ServiceProvider.GetRequiredService<CivixDbContext>();
+            var _context = scope.ServiceProvider.GetRequiredService<CivixDbContext>();
 
             var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
 
@@ -65,6 +81,8 @@ namespace Civix.App.Api
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.UseExceptionHandler();
 
             app.Run();
         }
