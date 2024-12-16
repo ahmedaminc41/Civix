@@ -59,13 +59,13 @@ namespace Civix.App.Api
 
             var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
             Console.WriteLine("Shiref");
             Console.WriteLine("ahmed");
             Console.WriteLine("hana");
 
-=======
->>>>>>> 9ac919796cdd68903b8a32b55282ec5b93253719
+//=======
+//>>>>>>> 9ac919796cdd68903b8a32b55282ec5b93253719
             try
             {
                 await _context.Database.MigrateAsync(); // Update-database
