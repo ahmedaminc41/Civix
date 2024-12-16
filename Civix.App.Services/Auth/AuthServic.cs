@@ -145,7 +145,9 @@ namespace Civix.App.Services.Auth
 
             var user = await _userManager.FindByEmailAsync(changePasswordDto.Email);
             if (user is null) return Result.Failure<object>(UserErrors.InvalidEmail);
+            
 
+            // TODO: Select Using Hashed OTP Ya 7aywan !! :(
             var otpRecord = _context.OtpRecords.Where(X => X.Email == changePasswordDto.Email && X.ExpiryTime > DateTime.UtcNow).OrderByDescending(X => X.ExpiryTime).FirstOrDefault();
 
             if (otpRecord is null) return Result.Failure<object>(UserErrors.InvalidResetPassword);
