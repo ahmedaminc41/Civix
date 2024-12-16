@@ -1,16 +1,22 @@
 
 using System.Reflection;
+using System.Text;
 using Civix.App.Api.Exceptions;
 using Civix.App.Api.Validations;
 using Civix.App.Core.Dtos.Auth;
 using Civix.App.Core.Entities;
 using Civix.App.Core.Service.Contracts.Auth;
+using Civix.App.Core.Service.Contracts.Token;
 using Civix.App.Repositories.Data;
 using Civix.App.Services.Auth;
+using Civix.App.Services.Token;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Civix.App.Api
 {
@@ -40,6 +46,7 @@ namespace Civix.App.Api
 
 
             builder.Services.AddScoped<IAuthService, AuthServic>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
 
 
             builder.Services
@@ -58,6 +65,27 @@ namespace Civix.App.Api
                     config.AllowAnyMethod();
                 });
             });
+
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                                           .AddJwtBearer(options => {
+
+                                               options.TokenValidationParameters = new TokenValidationParameters()
+                                               {
+                                                   ValidateIssuer = true,
+                                                   ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+                                                   ValidateAudience = true,
+                                                   ValidAudience = builder.Configuration["JWT:ValidAudience"],
+                                                   ValidateLifetime = true,
+                                                   ValidateIssuerSigningKey = true,
+                                                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+                                               };
+
+                                           });
 
             var app = builder.Build();
 

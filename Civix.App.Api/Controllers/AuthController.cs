@@ -5,6 +5,7 @@ using Civix.App.Core.Entities;
 using Civix.App.Core.Service.Contracts.Auth;
 using Civix.App.Repositories.Data;
 using Civix.App.Services.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

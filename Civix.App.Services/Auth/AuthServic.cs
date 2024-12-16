@@ -11,6 +11,7 @@ using Civix.App.Core.Entities;
 using Civix.App.Core.Errors;
 using Civix.App.Core.Helpers;
 using Civix.App.Core.Service.Contracts.Auth;
+using Civix.App.Core.Service.Contracts.Token;
 using Civix.App.Repositories.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,7 @@ namespace Civix.App.Services.Auth
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly CivixDbContext _context;
+        private readonly ITokenService _tokenService;
 
         // UserManager
         // SignInManager
@@ -32,12 +34,14 @@ namespace Civix.App.Services.Auth
         public AuthServic(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            CivixDbContext context
+            CivixDbContext context,
+            ITokenService tokenService
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _tokenService = tokenService;
         }
 
         public async Task<Result<RegisterReturnDto>> LoginAsync(LoginDto loginDto)
@@ -56,7 +60,7 @@ namespace Civix.App.Services.Auth
             {
                 Email = user.Email,
                 FullName = user.FirstName + " " + user.LastName,
-                Token = "TODO"
+                Token = await _tokenService.CreateTokenAsync(user, _userManager)
             };
 
             return Result.Success(response);
@@ -85,7 +89,7 @@ namespace Civix.App.Services.Auth
             {
                 Email = user.Email,
                 FullName = user.FirstName + " " + user.LastName,
-                Token = "TODO"
+                Token = await _tokenService.CreateTokenAsync(user, _userManager)
             };
 
             return Result.Success(response);

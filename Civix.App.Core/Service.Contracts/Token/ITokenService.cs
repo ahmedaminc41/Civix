@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Civix.App.Core.Service.Contracts.Token
 {
-    public interface IToken
+    public interface ITokenService
     {
         Task<string> CreateTokenAsync(AppUser user, UserManager<AppUser> _userManager);
 

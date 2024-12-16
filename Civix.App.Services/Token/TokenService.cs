@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Civix.App.Services.Token
 {
-    public class TokenService : IToken
+    public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
         public TokenService(IConfiguration configuration)
@@ -21,8 +21,7 @@ namespace Civix.App.Services.Token
             var AuthClaims = new List<Claim>()
             {
                 new Claim(ClaimTypes.GivenName,user.Id),
-               
-
+                new Claim(ClaimTypes.Email,user.Email),
             };
 
             var UserRole = await _userManager.GetRolesAsync(user);
@@ -31,7 +30,6 @@ namespace Civix.App.Services.Token
                 AuthClaims.Add(new Claim(ClaimTypes.Role, Role));
             }
 
-
             var AuthKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
 
             var token = new JwtSecurityToken(
@@ -39,7 +37,7 @@ namespace Civix.App.Services.Token
                 audience: _configuration["JWT:ValidAudience"],
                 expires: DateTime.Now.AddDays(double.Parse(_configuration["JWT:DurationInDays"])),
                 claims: AuthClaims,
-                signingCredentials: new SigningCredentials(AuthKey, SecurityAlgorithms.Aes128CbcHmacSha256)
+                signingCredentials: new SigningCredentials(AuthKey, SecurityAlgorithms.HmacSha256Signature)
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
