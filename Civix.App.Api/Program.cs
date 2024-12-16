@@ -49,7 +49,15 @@ namespace Civix.App.Api
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
             builder.Services.AddProblemDetails();
 
-
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy", config =>
+                {
+                    config.AllowAnyOrigin();
+                    config.AllowAnyHeader();
+                    config.AllowAnyMethod();
+                });
+            });
 
             var app = builder.Build();
 
@@ -59,13 +67,6 @@ namespace Civix.App.Api
 
             var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
 
-//<<<<<<< HEAD
-//            Console.WriteLine("Shiref");
-//            Console.WriteLine("ahmed");
-//            Console.WriteLine("hana");
-//
-//=======
-//>>>>>>> 9ac919796cdd68903b8a32b55282ec5b93253719
             try
             {
                 await _context.Database.MigrateAsync(); // Update-database
@@ -84,6 +85,7 @@ namespace Civix.App.Api
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("MyPolicy");
 
             app.UseAuthorization();
 
