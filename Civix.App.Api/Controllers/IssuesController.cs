@@ -56,5 +56,17 @@ namespace Civix.App.Api.Controllers
             return Ok(result);
         }
 
+
+        [HttpGet("{Test}")]
+        public async Task<IActionResult> GetIssueByIdTest(string? Id)
+        {
+            if (Id is null) return BadRequest();
+            var result = await _issueService.GetIssueById(Id);
+            if (result is null) return NotFound();
+
+            return Ok(result);
+        }
+
+
     }
 }
