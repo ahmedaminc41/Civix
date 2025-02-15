@@ -17,14 +17,10 @@ namespace Civix.App.Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly CivixDbContext _context;
 
         public AuthController(IAuthService authService, UserManager<AppUser> userManager, CivixDbContext context)
         {
             _authService = authService;
-            _userManager = userManager;
-            _context = context;
         }
 
 
@@ -81,7 +77,6 @@ namespace Civix.App.Api.Controllers
             return result.IsSuccess ?
                Ok(result.Value) :
                result.ToProblem(StatusCodes.Status400BadRequest, "Bad Request");
-
         }
 
 

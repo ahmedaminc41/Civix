@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Civix.App.Core.Entities;
@@ -18,10 +19,15 @@ namespace Civix.App.Repositories.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
             base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<OtpRecord> OtpRecords { get; set; }
+
+        public DbSet<Issue> Issues { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
 
     }

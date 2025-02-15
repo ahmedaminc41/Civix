@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Configurations\" />
-    <Folder Include="Data\DataSeed\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Civix.App.Core\Civix.App.Core.csproj" />
   </ItemGroup>
 

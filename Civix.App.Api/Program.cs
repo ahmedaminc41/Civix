@@ -3,12 +3,17 @@ using System.Reflection;
 using System.Text;
 using Civix.App.Api.Exceptions;
 using Civix.App.Api.Validations;
+using Civix.App.Core;
 using Civix.App.Core.Dtos.Auth;
 using Civix.App.Core.Entities;
+using Civix.App.Core.Mapping.Issues;
 using Civix.App.Core.Service.Contracts.Auth;
+using Civix.App.Core.Service.Contracts.Issues;
 using Civix.App.Core.Service.Contracts.Token;
+using Civix.App.Repositories;
 using Civix.App.Repositories.Data;
 using Civix.App.Services.Auth;
+using Civix.App.Services.Issues;
 using Civix.App.Services.Token;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -45,8 +50,10 @@ namespace Civix.App.Api
 
 
 
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IAuthService, AuthServic>();
             builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IIssueService, IssueService>();
 
 
             builder.Services
@@ -87,6 +94,8 @@ namespace Civix.App.Api
 
                                            });
 
+            builder.Services.AddAutoMapper(typeof(IssueProfile));
+
             var app = builder.Build();
 
             // ASK CLR To Create Object From CivixDbContext
@@ -98,6 +107,7 @@ namespace Civix.App.Api
             try
             {
                 await _context.Database.MigrateAsync(); // Update-database
+                await CivixDbSeed.SeedAsync(_context);
             }
             catch (Exception ex)
             {
