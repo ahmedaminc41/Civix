@@ -18,6 +18,6 @@ namespace Civix.App.Core.Dtos.Issue
         public string Priority { get; set; } = string.Empty;
         public int? CategoryId { get; set; }
 
-        public List<IFormFile> images { get; set; }
+        public List<IFormFile>? images { get; set; }
     }
 }

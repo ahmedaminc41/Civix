@@ -28,6 +28,8 @@ namespace Civix.App.Repositories.Repositories
 
         public async Task<TEntity?> GetAsync(TKey id)
         {
+            if (typeof(TEntity) == typeof(Issue))
+                return  await _context.Issues.Include(I => I.Images).FirstOrDefaultAsync(I => I.Id == id as string) as TEntity;
             return await _context.Set<TEntity>().FindAsync(id);
         }
 

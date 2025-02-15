@@ -15,5 +15,7 @@ namespace Civix.App.Core.Service.Contracts.Issues
         Task<IEnumerable<IssueToReturn>?> GetAllIssuesAsync();
         Task<Pagination<IssueToReturn>?> GetAllIssuesAsyncWithSpec(IssueSpecParams specParams);
         Task<IssueToReturn?> CreateIssue(CreateIssueDto issue);
+
+        Task<IssueToReturn?> GetIssueById(string id);
     }
 }

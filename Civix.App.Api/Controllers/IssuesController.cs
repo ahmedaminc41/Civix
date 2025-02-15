@@ -28,6 +28,7 @@ namespace Civix.App.Api.Controllers
             if (issue is null) return BadRequest();
 
             var result = await _issueService.CreateIssue(issue);
+
             if (result is null) return BadRequest();
 
             return Ok(result);
@@ -40,6 +41,17 @@ namespace Civix.App.Api.Controllers
             var result = await _issueService.GetAllIssuesAsyncWithSpec(specParams);
 
             if (result is null) return BadRequest();
+
+            return Ok(result);
+        }
+
+
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetIssueById(string? Id)
+        {
+            if (Id is null) return BadRequest();
+            var result = await _issueService.GetIssueById(Id);
+            if (result is null) return NotFound();
 
             return Ok(result);
         }

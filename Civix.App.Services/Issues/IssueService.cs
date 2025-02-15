@@ -35,7 +35,7 @@ namespace Civix.App.Services.Issues
         {
             if (model is null) return null;
 
-            var issue =  _mapper.Map<Issue>(model);
+            var issue = _mapper.Map<Issue>(model);
             await _unitOfWork.Repository<Issue, string>().AddAsync(issue);
             var count = await _unitOfWork.CompleteAsync();
 
@@ -76,6 +76,11 @@ namespace Civix.App.Services.Issues
             var res = new Pagination<IssueToReturn>(specParams.PageSize, specParams.PageIndex, count, _mapper.Map<IEnumerable<IssueToReturn>>(result), total);
 
             return res;
+        }
+
+        public async Task<IssueToReturn?> GetIssueById(string id)
+        {
+            return _mapper.Map<IssueToReturn>(await _unitOfWork.Repository<Issue, string>().GetAsync(id));
         }
     }
 }
