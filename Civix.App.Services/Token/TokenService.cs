@@ -20,7 +20,8 @@ namespace Civix.App.Services.Token
         {
             var AuthClaims = new List<Claim>()
             {
-                new Claim(ClaimTypes.GivenName,user.Id),
+                new Claim(ClaimTypes.NameIdentifier,user.Id),
+                new Claim(ClaimTypes.GivenName,user.FirstName),
                 new Claim(ClaimTypes.Email,user.Email),
             };
 

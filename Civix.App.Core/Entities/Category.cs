@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Civix.App.Core.Entities
 {
-    public class Category : BaseEntity<int>
+    public class Category 
     {
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

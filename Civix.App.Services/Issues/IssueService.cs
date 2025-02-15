@@ -7,7 +7,9 @@ using AutoMapper;
 using Civix.App.Core;
 using Civix.App.Core.Dtos.Issue;
 using Civix.App.Core.Entities;
+using Civix.App.Core.Helpers;
 using Civix.App.Core.Service.Contracts.Issues;
+using Civix.App.Core.Specifications.Issues_Specs;
 
 namespace Civix.App.Services.Issues
 {
@@ -40,6 +42,25 @@ namespace Civix.App.Services.Issues
             var result = await _unitOfWork.Repository<Issue, string>().GetAllAsync();
 
             return _mapper.Map<IEnumerable<IssueToReturn>>(result);
+        }
+
+        public async Task<Pagination<IssueToReturn>?> GetAllIssuesAsyncWithSpec(IssueSpecParams specParams)
+        {
+
+            var spec = new IssueWithCategorySpecifications(specParams);
+
+            var result = await _unitOfWork.Repository<Issue, string>().GetAllWithSpecAsync(spec);
+            var restotal = await _unitOfWork.Repository<Issue, string>().GetAllAsync();
+
+            var total = restotal.Count();
+
+            var countSpec = new IssueWithFilterationCountSpecifications(specParams);
+
+            var count = await _unitOfWork.Repository<Issue, string>().CountAsync(spec);
+
+            var res = new Pagination<IssueToReturn>(specParams.PageSize, specParams.PageIndex, count, _mapper.Map<IEnumerable<IssueToReturn>>(result), total);
+
+            return res;
         }
     }
 }
