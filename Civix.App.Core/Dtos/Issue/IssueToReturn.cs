@@ -25,5 +25,8 @@ namespace Civix.App.Core.Dtos.Issue
         public DateTime CreatedOn { get; set; } 
         public string? UpdatedById { get; set; }
         public DateTime? UpdatedOn { get; set; }
+
+        public List<string> Images { get; set; } = new List<string>();
+
     }
 }

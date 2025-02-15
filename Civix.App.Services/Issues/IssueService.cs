@@ -8,8 +8,11 @@ using Civix.App.Core;
 using Civix.App.Core.Dtos.Issue;
 using Civix.App.Core.Entities;
 using Civix.App.Core.Helpers;
+using Civix.App.Core.Service.Contracts.Images;
 using Civix.App.Core.Service.Contracts.Issues;
 using Civix.App.Core.Specifications.Issues_Specs;
+using Civix.App.Repositories.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Civix.App.Services.Issues
 {
@@ -17,11 +20,15 @@ namespace Civix.App.Services.Issues
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IFileManager _fileManager;
+        private readonly CivixDbContext _context;
 
-        public IssueService(IUnitOfWork unitOfWork, IMapper mapper)
+        public IssueService(IUnitOfWork unitOfWork, IMapper mapper, IFileManager fileManager, CivixDbContext context)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _fileManager = fileManager;
+            _context = context;
         }
 
         public async Task<IssueToReturn?> CreateIssue(CreateIssueDto model)
@@ -31,6 +38,14 @@ namespace Civix.App.Services.Issues
             var issue =  _mapper.Map<Issue>(model);
             await _unitOfWork.Repository<Issue, string>().AddAsync(issue);
             var count = await _unitOfWork.CompleteAsync();
+
+            var uploadedImages = await _fileManager.UploadImages(model.images, issue.Id);
+
+            if (uploadedImages.Any())
+            {
+                _context.IssueImages.AddRange(uploadedImages);
+                await _context.SaveChangesAsync();
+            }
 
             var result = _mapper.Map<IssueToReturn>(issue);
             if (count > 0) return result;

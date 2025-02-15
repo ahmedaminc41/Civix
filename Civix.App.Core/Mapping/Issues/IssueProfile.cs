@@ -13,10 +13,13 @@ namespace Civix.App.Core.Mapping.Issues
     {
         public IssueProfile()
         {
-            CreateMap<Issue, CreateIssueDto>().ReverseMap();
+            CreateMap<Issue, CreateIssueDto>().ReverseMap().ForMember(dest => dest.Images, opt => opt.Ignore()); // Images are handled separately
+            ;
             CreateMap<Issue, IssueToReturn>()
-                .ForMember(d => d.Category, o => o.MapFrom(s => s.Category.Name));
-                
+                .ForMember(d => d.Category, o => o.MapFrom(s => s.Category.Name))
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images.Select(img => img.ImageUrl).ToList())); // Map images
+
+
         }
     }
 }

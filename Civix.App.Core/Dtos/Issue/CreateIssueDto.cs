@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Civix.App.Core.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace Civix.App.Core.Dtos.Issue
 {
@@ -16,5 +17,7 @@ namespace Civix.App.Core.Dtos.Issue
         public string Status { get; set; } = string.Empty;
         public string Priority { get; set; } = string.Empty;
         public int? CategoryId { get; set; }
+
+        public List<IFormFile> images { get; set; }
     }
 }

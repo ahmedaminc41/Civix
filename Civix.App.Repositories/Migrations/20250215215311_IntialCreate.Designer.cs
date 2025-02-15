@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Civix.App.Repositories.Data.Migrations
+namespace Civix.App.Repositories.Migrations
 {
     [DbContext(typeof(CivixDbContext))]
-    [Migration("20250215195421_AddAuditColumnsToIssueTable")]
-    partial class AddAuditColumnsToIssueTable
+    [Migration("20250215215311_IntialCreate")]
+    partial class IntialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -167,6 +167,29 @@ namespace Civix.App.Repositories.Data.Migrations
                     b.HasIndex("UpdatedById");
 
                     b.ToTable("Issues");
+                });
+
+            modelBuilder.Entity("Civix.App.Core.Entities.IssueImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IssueId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IssueId");
+
+                    b.ToTable("IssueImages");
                 });
 
             modelBuilder.Entity("Civix.App.Core.Entities.OtpRecord", b =>
@@ -349,6 +372,17 @@ namespace Civix.App.Repositories.Data.Migrations
                     b.Navigation("UpdatedBy");
                 });
 
+            modelBuilder.Entity("Civix.App.Core.Entities.IssueImage", b =>
+                {
+                    b.HasOne("Civix.App.Core.Entities.Issue", "Issue")
+                        .WithMany("Images")
+                        .HasForeignKey("IssueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Issue");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -398,6 +432,11 @@ namespace Civix.App.Repositories.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Civix.App.Core.Entities.Issue", b =>
+                {
+                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

@@ -61,6 +61,8 @@ namespace Civix.App.Repositories.Data
         public DbSet<Issue> Issues { get; set; }
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<IssueImage> IssueImages { get; set; }
+
 
     }
 }

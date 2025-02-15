@@ -8,11 +8,13 @@ using Civix.App.Core.Dtos.Auth;
 using Civix.App.Core.Entities;
 using Civix.App.Core.Mapping.Issues;
 using Civix.App.Core.Service.Contracts.Auth;
+using Civix.App.Core.Service.Contracts.Images;
 using Civix.App.Core.Service.Contracts.Issues;
 using Civix.App.Core.Service.Contracts.Token;
 using Civix.App.Repositories;
 using Civix.App.Repositories.Data;
 using Civix.App.Services.Auth;
+using Civix.App.Services.Images;
 using Civix.App.Services.Issues;
 using Civix.App.Services.Token;
 using FluentValidation;
@@ -54,6 +56,7 @@ namespace Civix.App.Api
             builder.Services.AddScoped<IAuthService, AuthServic>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IIssueService, IssueService>();
+            builder.Services.AddScoped<IFileManager, FileManager>();
 
 
             builder.Services
@@ -121,6 +124,8 @@ namespace Civix.App.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
             app.UseCors("MyPolicy");

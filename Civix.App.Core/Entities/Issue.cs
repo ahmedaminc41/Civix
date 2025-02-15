@@ -25,5 +25,7 @@ namespace Civix.App.Core.Entities
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
 
+        public List<IssueImage> Images { get; set; }
+
     }
 }

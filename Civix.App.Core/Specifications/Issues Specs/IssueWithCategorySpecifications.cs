@@ -18,6 +18,7 @@ namespace Civix.App.Core.Specifications.Issues_Specs
             )
         {
             Includes.Add(I => I.Category);
+            Includes.Add(I => I.Images);
 
             if (!string.IsNullOrEmpty(issueSpec.Sort))
             {
