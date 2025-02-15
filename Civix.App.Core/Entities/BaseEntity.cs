@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Civix.App.Core.Entities
 {
-    public class BaseEntity<TKey>
+    public class BaseEntity<TKey> : AuditableEntity
     {
         public TKey Id { get; set; }
     }
